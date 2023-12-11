@@ -12,10 +12,13 @@ import { BlockNoteView, useBlockNote } from "@blocknote/react";
 import { Document } from "@prisma/client";
 import { AlertTriangle, Check, Loader2 } from "lucide-react";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
 import EditorHeader from "./editor-header";
 import EmojiPicker from "./emoji-picker";
+import { NavigationContext } from "@/lib/providers/context-provider";
+import { cn } from "@/lib/utils";
+import useWindowDimensions from "@/hooks/use-window-dimensions";
 
 type Props = {
   document: Document;
@@ -23,6 +26,8 @@ type Props = {
 
 const Editor = ({ document }: Props) => {
   const { resolvedTheme } = useTheme();
+  const { showNavigation } = useContext(NavigationContext);
+  const { width } = useWindowDimensions();
   const [firstRender, setFirstRender] = useState(true);
 
   const [content, setContent] = useState("");
@@ -84,7 +89,12 @@ const Editor = ({ document }: Props) => {
   }, [titleDebounced]);
 
   return (
-    <div className="w-full max-h-[99vh] overflow-y-auto">
+    <div
+      className={cn(
+        "w-full max-h-[99vh] overflow-y-auto overflow-x-hidden",
+        showNavigation && width && width < 768 && "w-0"
+      )}
+    >
       <EditorHeader document={document} setTitle={setTitle} title={title} />
       <div className="h-10 p-6 flex justify-between">
         <div>

@@ -16,7 +16,13 @@ const AuthCard = () => {
           signIn("google", { redirect: true, callbackUrl: "/documents" })
         }
       >
-        <Image width={20} src={GoogleLogo} alt="google" className="mr-2 " />
+        <Image
+          width={20}
+          height={20}
+          src={GoogleLogo}
+          alt="google"
+          className="mr-2 "
+        />
         Login with google
       </Button>
     </div>

@@ -11,9 +11,10 @@ import {
   useEditDocumentEmojiPublished,
   useRestoreDocument,
 } from "@/hooks/tanstack-hooks";
+import { NavigationContext } from "@/lib/providers/context-provider";
 import { Document } from "@prisma/client";
-import { Check, Copy, Share2, Trash, Undo } from "lucide-react";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Check, Copy, Menu, Share2, Trash, Undo } from "lucide-react";
+import { Dispatch, SetStateAction, useContext, useState } from "react";
 
 type Props = {
   document: Document;
@@ -30,6 +31,8 @@ const EditorHeader = ({ document, setTitle, title }: Props) => {
     useRestoreDocument(document.id);
   const { mutate: mutateDelete, isPending: isPendingDelete } =
     useDeleteDocument(document.id);
+  const { showNavigation, toggleShowNavigation } =
+    useContext(NavigationContext);
 
   const onCopy = () => {
     navigator.clipboard.writeText(
@@ -43,16 +46,26 @@ const EditorHeader = ({ document, setTitle, title }: Props) => {
   };
 
   return (
-    <section className="w-full border-b z-50 bg-white">
-      <nav className="flex justify-between p-2 pl-6">
+    <section className="w-full border-b z-50 ">
+      <nav className="flex justify-between p-2 ">
         <div className="flex items-center gap-1">
-          <p>{document.icon}</p>
-          <Input
-            disabled={document.isArchived}
-            className="text-lg font-medium p-0 border-none outline-none focus-visible:ring-0 focus-visible:ring-transparent"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
+          <Button
+            variant="secondary"
+            size="icon"
+            className="md:hidden"
+            onClick={() => toggleShowNavigation()}
+          >
+            <Menu size={18} />
+          </Button>
+          <div className="flex items-center gap-1 pl-4">
+            <p>{document.icon}</p>
+            <Input
+              disabled={document.isArchived}
+              className="text-lg font-medium p-0 border-none outline-none focus-visible:ring-0 focus-visible:ring-transparent"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </div>
         </div>
 
         <div className="flex  gap-2">
