@@ -4,6 +4,7 @@ import DarkModeButton from "./dark-mode-button";
 import { buttonVariants } from "./ui/button";
 import { getAuthSession } from "@/lib/session";
 import SignoutButton from "./signout-button";
+import { Github } from "lucide-react";
 
 const Header = async () => {
   const session = await getAuthSession();
@@ -16,6 +17,14 @@ const Header = async () => {
         </Link>
 
         <div className="flex items-center gap-3">
+          <Link
+            href="https://github.com/yaserrar/notion-ya"
+            className={cn(buttonVariants({ variant: "outline" }), "flex gap-2")}
+          >
+            <Github size={18} />
+            Repo
+          </Link>
+
           {!session?.user ? (
             <Link
               href="/auth"
