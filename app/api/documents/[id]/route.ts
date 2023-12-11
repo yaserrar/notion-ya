@@ -1,6 +1,6 @@
+import { archiveSubDocuments } from "@/lib/api-utils";
 import { prisma } from "@/lib/prisma";
 import { getAuthSession } from "@/lib/session";
-import { Document } from "@prisma/client";
 
 export async function POST(
   req: Request,
@@ -78,23 +78,3 @@ export async function PUT(
     return Response.json({ error: "An error has occurred" }, { status: 500 });
   }
 }
-
-export const archiveSubDocuments = async (
-  document: Document,
-  documents: Document[],
-  isArchive: boolean
-) => {
-  await prisma.document.update({
-    where: { id: document.id },
-    data: {
-      isPublished: false,
-      isArchived: isArchive,
-    },
-  });
-
-  documents
-    .filter((d) => d.superDocumentId === document.id)
-    .forEach((d, i) => {
-      archiveSubDocuments(d, documents, true);
-    });
-};

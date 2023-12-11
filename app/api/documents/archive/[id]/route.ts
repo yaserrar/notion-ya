@@ -1,7 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { getAuthSession } from "@/lib/session";
-import { Document } from "@prisma/client";
-import { archiveSubDocuments } from "../../[id]/route";
+import { archiveSubDocuments, deleteSubDocuments } from "@/lib/api-utils";
 
 export async function PUT(
   req: Request,
@@ -83,18 +82,3 @@ export async function DELETE(
     return Response.json({ error: "An error has occurred" }, { status: 500 });
   }
 }
-
-const deleteSubDocuments = async (
-  document: Document,
-  documents: Document[]
-) => {
-  documents
-    .filter((d) => d.superDocumentId === document.id)
-    .forEach((d) => {
-      deleteSubDocuments(d, documents);
-    });
-
-  await prisma.document.delete({
-    where: { id: document.id },
-  });
-};
