@@ -22,8 +22,6 @@ export default async function RootLayout({
 }) {
   const session = await getAuthSession();
 
-  console.log(session);
-
   return (
     <html lang="en">
       <body className={cn(inter.className, "min-h-screen")}>
