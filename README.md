@@ -1,7 +1,14 @@
 # Fullstack Notion Clone: Next.js 13, React, Tailwind, Prisma, Postgres
 
+### Demo
+
+Here is a link for the demo :
+
+#### <a href="https://notion-ya.vercel.app/">Notion Clone</a>
+
 ![Notion clone](./public/notion.png)
-Key Features:
+
+### Key Features:
 
 - Real-time database 🔗
 - Notion-style editor 📝
